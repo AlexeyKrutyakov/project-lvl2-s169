@@ -1,0 +1,7 @@
+# gendiff
+
+## Setup
+
+```
+make install
+```
