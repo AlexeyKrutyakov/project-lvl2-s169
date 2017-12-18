@@ -34,7 +34,9 @@
     "testEnvironment": "node"
   },
   "homepage": "https://github.com/arctikbear/arctikbear.github.io",
-  "dependencies": {},
+  "dependencies": {
+    "commander": "^2.12.2"
+  },
   "devDependencies": {
     "babel-cli": "*",
     "babel-core": "*",
