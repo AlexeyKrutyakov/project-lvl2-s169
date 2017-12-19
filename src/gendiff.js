@@ -1,6 +1,14 @@
 // @flow
 import fs from 'fs';
 import _ from 'lodash';
+import path from 'path';
+import YAML from 'js-yaml';
+
+const parseBy = {
+  '.json': JSON.parse,
+  '.yml': YAML.safeLoad,
+  '.yaml': YAML.safeLoad,
+};
 
 const propertyActions = [
   {
@@ -54,8 +62,10 @@ const getPropertyAction = (key, obj1, obj2) =>
   _.find(propertyActions, ({ check }) => check(key, obj1, obj2));
 
 export default (pathToFile1, pathToFile2) => {
-  const obj1 = JSON.parse(fs.readFileSync(pathToFile1, 'utf-8'));
-  const obj2 = JSON.parse(fs.readFileSync(pathToFile2, 'utf-8'));
+  const file1Ext = path.parse(pathToFile1).ext;
+  const file2Ext = path.parse(pathToFile2).ext;
+  const obj1 = parseBy[file1Ext](fs.readFileSync(pathToFile1, 'utf-8'));
+  const obj2 = parseBy[file2Ext](fs.readFileSync(pathToFile2, 'utf-8'));
   const keysSet = Object.keys(obj1).concat(Object.keys(obj2));
   const uniqueKeys = _.uniq(keysSet);
   const differences = uniqueKeys.reduce((acc, key) => {
