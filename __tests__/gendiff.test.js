@@ -1,4 +1,4 @@
-import gendiff from '../src/..';
+import gendiff from '../src';
 
 describe('gendiff', () => {
   const file1 = './__tests__/__fixtures__/before.json';
