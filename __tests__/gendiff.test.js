@@ -1,5 +1,10 @@
 import gendiff from '../src';
 
+const fixturesPath = './__tests__/__fixtures__/';
+const file1 = `${fixturesPath}before`;
+const file2 = `${fixturesPath}after`;
+const file3 = `${fixturesPath}empty`;
+
 const expected1 = '{\n' +
   '    host: hexlet.io\n' +
   '  - timeout: 50\n' +
@@ -18,55 +23,43 @@ const expected3 = '{\n' +
   '  + host: hexlet.io\n}';
 
 describe('diff in JSON', () => {
-  const file1 = './__tests__/__fixtures__/before.json';
-  const file2 = './__tests__/__fixtures__/after.json';
-  const file3 = './__tests__/__fixtures__/empty.json';
-
   it('#before.json -> after.json', () => {
-    expect(gendiff(file1, file2)).toBe(expected1);
+    expect(gendiff(`${file1}.json`, `${file2}.json`)).toBe(expected1);
   });
 
   it('#before.json -> empty.json', () => {
-    expect(gendiff(file1, file3)).toBe(expected2);
+    expect(gendiff(`${file1}.json`, `${file3}.json`)).toBe(expected2);
   });
 
   it('#empty.json -> after.json', () => {
-    expect(gendiff(file3, file2)).toBe(expected3);
+    expect(gendiff(`${file3}.json`, `${file2}.json`)).toBe(expected3);
   });
 });
 
 describe('diff in YAML', () => {
-  const file1 = './__tests__/__fixtures__/before.yaml';
-  const file2 = './__tests__/__fixtures__/after.yaml';
-  const file3 = './__tests__/__fixtures__/empty.yaml';
-
   it('#before.yaml -> after.yaml', () => {
-    expect(gendiff(file1, file2)).toBe(expected1);
+    expect(gendiff(`${file1}.yaml`, `${file2}.yaml`)).toBe(expected1);
   });
 
   it('#before.yaml -> empty.yaml', () => {
-    expect(gendiff(file1, file3)).toBe(expected2);
+    expect(gendiff(`${file1}.yaml`, `${file3}.yaml`)).toBe(expected2);
   });
 
   it('#empty.yaml -> after.yaml', () => {
-    expect(gendiff(file3, file2)).toBe(expected3);
+    expect(gendiff(`${file3}.yaml`, `${file2}.yaml`)).toBe(expected3);
   });
 });
 
 describe('diff in INI', () => {
-  const file1 = './__tests__/__fixtures__/before.ini';
-  const file2 = './__tests__/__fixtures__/after.ini';
-  const file3 = './__tests__/__fixtures__/empty.ini';
-
   it('#before.ini -> after.ini', () => {
-    expect(gendiff(file1, file2)).toBe(expected1);
+    expect(gendiff(`${file1}.ini`, `${file2}.ini`)).toBe(expected1);
   });
 
   it('#before.ini -> empty.ini', () => {
-    expect(gendiff(file1, file3)).toBe(expected2);
+    expect(gendiff(`${file1}.ini`, `${file3}.ini`)).toBe(expected2);
   });
 
   it('#empty.ini -> after.ini', () => {
-    expect(gendiff(file3, file2)).toBe(expected3);
+    expect(gendiff(`${file3}.ini`, `${file2}.ini`)).toBe(expected3);
   });
 });
