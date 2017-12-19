@@ -3,11 +3,18 @@ import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
 import YAML from 'js-yaml';
+import INI from 'ini';
 
 const parseBy = {
   '.json': JSON.parse,
   '.yml': YAML.safeLoad,
   '.yaml': YAML.safeLoad,
+  '.ini': INI.parse,
+};
+
+const createObjFromFile = (filepath) => {
+  const file1Ext = path.parse(filepath).ext;
+  return parseBy[file1Ext](fs.readFileSync(filepath, 'utf-8'));
 };
 
 const propertyActions = [
@@ -62,10 +69,8 @@ const getPropertyAction = (key, obj1, obj2) =>
   _.find(propertyActions, ({ check }) => check(key, obj1, obj2));
 
 export default (pathToFile1, pathToFile2) => {
-  const file1Ext = path.parse(pathToFile1).ext;
-  const file2Ext = path.parse(pathToFile2).ext;
-  const obj1 = parseBy[file1Ext](fs.readFileSync(pathToFile1, 'utf-8'));
-  const obj2 = parseBy[file2Ext](fs.readFileSync(pathToFile2, 'utf-8'));
+  const obj1 = createObjFromFile(pathToFile1);
+  const obj2 = createObjFromFile(pathToFile2);
   const keysSet = Object.keys(obj1).concat(Object.keys(obj2));
   const uniqueKeys = _.uniq(keysSet);
   const differences = uniqueKeys.reduce((acc, key) => {

@@ -52,3 +52,21 @@ describe('diff in YAML', () => {
     expect(gendiff(file3, file2)).toBe(expected3);
   });
 });
+
+describe('diff in INI', () => {
+  const file1 = './__tests__/__fixtures__/before.ini';
+  const file2 = './__tests__/__fixtures__/after.ini';
+  const file3 = './__tests__/__fixtures__/empty.ini';
+
+  it('#before.ini -> after.ini', () => {
+    expect(gendiff(file1, file2)).toBe(expected1);
+  });
+
+  it('#before.ini -> empty.ini', () => {
+    expect(gendiff(file1, file3)).toBe(expected2);
+  });
+
+  it('#empty.ini -> after.ini', () => {
+    expect(gendiff(file3, file2)).toBe(expected3);
+  });
+});
