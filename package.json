@@ -1,6 +1,6 @@
 {
   "name": "arctik-gendiff",
-  "version": "0.0.1",
+  "version": "0.0.8",
   "description": "Compares two configuration files and shows a difference",
   "main": "dist/index.js",
   "bin": {
@@ -35,7 +35,8 @@
   },
   "homepage": "https://github.com/arctikbear/arctikbear.github.io",
   "dependencies": {
-    "commander": "^2.12.2"
+    "commander": "^2.12.2",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "babel-cli": "*",
