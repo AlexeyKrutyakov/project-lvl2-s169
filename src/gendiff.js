@@ -12,41 +12,36 @@ const parseBy = {
   '.ini': INI.parse,
 };
 
+const readFromFile = filepath => fs.readFileSync(filepath, 'utf-8');
+
+const getExtension = filepath => path.parse(filepath).ext;
+
+const parseData = (rawData, extension) => parseBy[extension](rawData);
+
 const createObjFromFile = (filepath) => {
-  const file1Ext = path.parse(filepath).ext;
-  return parseBy[file1Ext](fs.readFileSync(filepath, 'utf-8'));
+  const rawData = readFromFile(filepath);
+  const fileExtension = getExtension(filepath);
+  return parseData(rawData, fileExtension);
 };
 
 const propertyActions = [
   {
     type: 'unchanged',
-    check: (key, obj1, obj2) => {
-      const result = (obj1[key] && obj2[key])
-        && obj1[key] === obj2[key];
-      return result;
-    },
+    check: (key, obj1, obj2) => (obj1[key] && obj2[key])
+      && obj1[key] === obj2[key],
   },
   {
     type: 'changed',
-    check: (key, obj1, obj2) => {
-      const result = (obj1[key] && obj2[key])
-      && obj1[key] !== obj2[key];
-      return result;
-    },
+    check: (key, obj1, obj2) => (obj1[key] && obj2[key])
+      && obj1[key] !== obj2[key],
   },
   {
     type: 'deleted',
-    check: (key, obj1, obj2) => {
-      const result = obj1[key] && !obj2[key];
-      return result;
-    },
+    check: (key, obj1, obj2) => obj1[key] && !obj2[key],
   },
   {
     type: 'added',
-    check: (key, obj1, obj2) => {
-      const result = obj2[key] && !obj1[key];
-      return result;
-    },
+    check: (key, obj1, obj2) => obj2[key] && !obj1[key],
   },
 ];
 
@@ -75,7 +70,7 @@ export default (pathToFile1, pathToFile2) => {
   const uniqueKeys = _.uniq(keysSet);
   const differences = uniqueKeys.reduce((acc, key) => {
     const { type } = getPropertyAction(key, obj1, obj2);
-    return acc.concat(`${propertyToString(type, key, obj1, obj2)}\n`);
+    return [...acc, `${propertyToString(type, key, obj1, obj2)}\n`].join('');
   }, '');
   return `{\n${differences}}`;
 };
