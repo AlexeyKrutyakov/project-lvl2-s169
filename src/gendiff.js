@@ -20,7 +20,7 @@ const createObjFromFile = (filepath) => {
   return parseData(rawData, fileExtension);
 };
 
-const propertyActions = [
+const propertyTypes = [
   {
     type: 'unchanged',
     check: (key, obj1, obj2) => (obj1[key] && obj2[key])
@@ -57,7 +57,7 @@ const propertyToString = (type, key, obj1, obj2) => {
 };
 
 const getPropertyAction = (key, obj1, obj2) =>
-  _.find(propertyActions, ({ check }) => check(key, obj1, obj2));
+  _.find(propertyTypes, ({ check }) => check(key, obj1, obj2));
 
 export default (pathToFile1, pathToFile2) => {
   const obj1 = createObjFromFile(pathToFile1);
