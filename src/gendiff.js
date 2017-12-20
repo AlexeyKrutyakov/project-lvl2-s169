@@ -62,48 +62,10 @@ const getPropertyAction = (key, obj1, obj2) =>
 export default (pathToFile1, pathToFile2) => {
   const obj1 = createObjFromFile(pathToFile1);
   const obj2 = createObjFromFile(pathToFile2);
-  const keysSet = Object.keys(obj1).concat(Object.keys(obj2));
-  const uniqueKeys = _.uniq(keysSet);
-  const differences = uniqueKeys.reduce((acc, key) => {
+  const keys = _.union(_.keys(obj1), _.keys(obj2));
+  const differences = keys.reduce((acc, key) => {
     const { type } = getPropertyAction(key, obj1, obj2);
     return [...acc, `${propertyToString(type, key, obj1, obj2)}\n`].join('');
   }, '');
   return `{\n${differences}}`;
 };
-
-// {
-//   type: 'nested',
-//   check: (first, second, key) => (first[key] instanceof Object && second[key] instanceof Object)
-//     && !(first[key] instanceof Array && second[key] instanceof Array),
-//   process: (first, second, fun) => fun(first, second),
-// },
-// {
-//   type: 'not changed',
-//   check: (first, second, key) => (_.has(first, key) && _.has(second, key)
-//     && (first[key] === second[key])),
-//   process: first => _.identity(first),
-// },
-// {
-//   type: 'changed',
-//   check: (first, second, key) => (_.has(first, key) && _.has(second, key)
-//     && (first[key] !== second[key])),
-//   process: (first, second) => ({ old: first, new: second }),
-// },
-// {
-//   type: 'deleted',
-//   check: (first, second, key) => (_.has(first, key) && !_.has(second, key)),
-//   process: first => _.identity(first),
-// },
-// {
-//   type: 'inserted',
-//   check: (first, second, key) => (!_.has(first, key) && _.has(second, key)),
-//   process: (first, second) => _.identity(second),
-// },
-// ];
-
-// const getAst = (firstConfig = {}, secondConfig = {}) => {
-// const configsKeys = _.union(Object.keys(firstConfig), Object.keys(secondConfig));
-// return configsKeys.map((key) => {
-//   const { type, process } = _.find(keyTypes, item => item.check(firstConfig, secondConfig, key));
-//   const value = process(firstConfig[key], secondConfig[key], getAst);
-//   return { name: key, type, value };
