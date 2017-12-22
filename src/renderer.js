@@ -72,9 +72,12 @@ const renderToPlain = (ast) => {
   return ast.map(nodeToPlain).filter(line => line).join('\n');
 };
 
+const renderToJson = ast => JSON.stringify(ast);
+
 const renderTypes = {
   tree: renderToTree,
   plain: renderToPlain,
+  json: renderToJson,
 };
 
 export default (type) => {
