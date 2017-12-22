@@ -77,4 +77,9 @@ const renderTypes = {
   plain: renderToPlain,
 };
 
-export default type => renderTypes[type];
+export default (type) => {
+  if (!renderTypes[type]) {
+    throw new Error('You change not exists format of output! Try more with another.');
+  }
+  return renderTypes[type];
+};
