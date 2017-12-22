@@ -33,7 +33,7 @@ const renderToTree = (ast, deepLvl) => {
       case 'added':
         return `${' '.repeat(2 + addSpaces)}+ ${key}: ${valueToString(value, deepLvl + 1)}`;
       default:
-        return 'unknown type';
+        throw new Error('Type of this property does not exist');
     }
   };
 
@@ -47,9 +47,34 @@ const renderToTree = (ast, deepLvl) => {
   return `{\n${iter('', ast)}${' '.repeat(addSpaces)}}`;
 };
 
+const renderToPlain = (ast) => {
+  const nodeToPlain = (node, parents = []) => {
+    const { key, type, value } = node;
+    const nodeName = [...parents, key].join('.');
+    switch (type) {
+      case 'nested':
+        return value.map(child => nodeToPlain(child, [...parents, nodeName]))
+          .filter(line => line).join('\n');
+      case 'unchanged':
+        return '';
+      case 'changed':
+        return `Property '${nodeName}' was updated. From '${value.old}' to '${value.new}'`;
+      case 'deleted':
+        return `Property '${nodeName}' was removed`;
+      case 'added':
+        return `Property '${nodeName}' was added with ${_.isObject(value) ?
+          'complex value' : `'${value}'`}`;
+      default:
+        throw new Error('Type of this property does not exist');
+    }
+  };
+
+  return ast.map(nodeToPlain).filter(line => line).join('\n');
+};
+
 const renderTypes = {
   tree: renderToTree,
-  // plain: renderToPlain,
+  plain: renderToPlain,
 };
 
 export default type => renderTypes[type];
