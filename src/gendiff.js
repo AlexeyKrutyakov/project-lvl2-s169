@@ -53,9 +53,9 @@ const buildAst = (obj1, obj2) => {
   });
 };
 
-export default (pathToFile1, pathToFile2) => {
+export default (pathToFile1, pathToFile2, format = 'tree') => {
   const obj1 = createObjFromFile(pathToFile1);
   const obj2 = createObjFromFile(pathToFile2);
   const ast = buildAst(obj1, obj2);
-  return render(ast, 0);
+  return render(format)(ast, 0);
 };

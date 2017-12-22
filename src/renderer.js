@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const astToString = (ast, deepLvl) => {
+const renderToTree = (ast, deepLvl) => {
   const addSpaces = deepLvl * 4;
 
   const valueToString = (value, deep) => {
@@ -22,7 +22,7 @@ const astToString = (ast, deepLvl) => {
     const { type, key, value } = node;
     switch (type) {
       case 'nested':
-        return `${' '.repeat(4 + addSpaces)}${key}: ${astToString(value, deepLvl + 1)}`;
+        return `${' '.repeat(4 + addSpaces)}${key}: ${renderToTree(value, deepLvl + 1)}`;
       case 'unchanged':
         return `${' '.repeat(4 + addSpaces)}${key}: ${valueToString(value, deepLvl + 1)}`;
       case 'changed':
@@ -47,4 +47,9 @@ const astToString = (ast, deepLvl) => {
   return `{\n${iter('', ast)}${' '.repeat(addSpaces)}}`;
 };
 
-export default astToString;
+const renderTypes = {
+  tree: renderToTree,
+  // plain: renderToPlain,
+};
+
+export default type => renderTypes[type];
