@@ -55,24 +55,11 @@ const getPropertyAction = (key, obj1, obj2) =>
 
 const buildAst = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
-  const iter = (acc, restKeys) => {
-    if (restKeys.length === 0) {
-      return acc;
-    }
-    const key = restKeys[0];
+  return keys.map((key) => {
     const { type, process } = getPropertyAction(key, obj1, obj2);
-    return iter(
-      [...acc,
-        {
-          type,
-          key,
-          value: process(obj1[key], obj2[key], buildAst),
-        },
-      ],
-      restKeys.slice(1),
-    );
-  };
-  return iter([], keys);
+    const value = process(obj1[key], obj2[key], buildAst);
+    return { type, key, value };
+  });
 };
 
 const astToString = (ast, deepLvl) => {
