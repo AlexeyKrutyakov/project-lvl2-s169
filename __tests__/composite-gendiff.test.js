@@ -1,3 +1,4 @@
+import fs from 'fs';
 import gendiff from '../src';
 
 const fixturesPath = './__tests__/__fixtures__/';
@@ -21,67 +22,10 @@ const path6 = `${fixturesPath}${file0}${ext3}`;
 const path7 = `${fixturesPath}${file1}${ext3}`;
 const path8 = `${fixturesPath}${file2}${ext3}`;
 
-const expected1 = '{\n' +
-  `${' '.repeat(4)}common: {\n` +
-  `${' '.repeat(8)}setting1: Value 1\n` +
-  `${' '.repeat(6)}- setting2: 200\n` +
-  `${' '.repeat(8)}setting3: true\n` +
-  `${' '.repeat(6)}- setting6: {\n` +
-  `${' '.repeat(12)}key: value\n` +
-  `${' '.repeat(8)}}\n` +
-  `${' '.repeat(6)}+ setting4: blah blah\n` +
-  `${' '.repeat(6)}+ setting5: {\n` +
-  `${' '.repeat(12)}key5: value5\n` +
-  `${' '.repeat(8)}}\n` +
-  `${' '.repeat(4)}}\n` +
-  `${' '.repeat(4)}group1: {\n` +
-  `${' '.repeat(6)}- baz: bas\n` +
-  `${' '.repeat(6)}+ baz: bars\n` +
-  `${' '.repeat(8)}foo: bar\n` +
-  `${' '.repeat(4)}}\n` +
-  `${' '.repeat(2)}- group2: {\n` +
-  `${' '.repeat(8)}abc: 12345\n` +
-  `${' '.repeat(4)}}\n` +
-  `${' '.repeat(2)}+ group3: {\n` +
-  `${' '.repeat(8)}fee: 100500\n` +
-  `${' '.repeat(4)}}\n` +
-  '}';
+const expected1 = fs.readFileSync(`${fixturesPath}answer-before-after-c`, 'utf-8');
+const expected2 = fs.readFileSync(`${fixturesPath}answer-before-empty-c`, 'utf-8');
+const expected3 = fs.readFileSync(`${fixturesPath}answer-empty-after-c`, 'utf-8');
 
-const expected2 = '{\n' +
-`${' '.repeat(2)}- common: {\n` +
-`${' '.repeat(8)}setting1: Value 1\n` +
-`${' '.repeat(8)}setting2: 200\n` +
-`${' '.repeat(8)}setting3: true\n` +
-`${' '.repeat(8)}setting6: {\n` +
-`${' '.repeat(12)}key: value\n` +
-`${' '.repeat(8)}}\n` +
-`${' '.repeat(4)}}\n` +
-`${' '.repeat(2)}- group1: {\n` +
-`${' '.repeat(8)}baz: bas\n` +
-`${' '.repeat(8)}foo: bar\n` +
-`${' '.repeat(4)}}\n` +
-`${' '.repeat(2)}- group2: {\n` +
-`${' '.repeat(8)}abc: 12345\n` +
-`${' '.repeat(4)}}\n` +
-'}';
-
-const expected3 = '{\n' +
-`${' '.repeat(2)}+ common: {\n` +
-`${' '.repeat(8)}setting1: Value 1\n` +
-`${' '.repeat(8)}setting3: true\n` +
-`${' '.repeat(8)}setting4: blah blah\n` +
-`${' '.repeat(8)}setting5: {\n` +
-`${' '.repeat(12)}key5: value5\n` +
-`${' '.repeat(8)}}\n` +
-`${' '.repeat(4)}}\n` +
-`${' '.repeat(2)}+ group1: {\n` +
-`${' '.repeat(8)}foo: bar\n` +
-`${' '.repeat(8)}baz: bars\n` +
-`${' '.repeat(4)}}\n` +
-`${' '.repeat(2)}+ group3: {\n` +
-`${' '.repeat(8)}fee: 100500\n` +
-`${' '.repeat(4)}}\n` +
-'}';
 
 describe(`diff in composite ${ext1}`, () => {
   it(`#${file1}${ext1} -> ${file2}${ext1}`, () => {
@@ -111,7 +55,7 @@ describe(`diff in composite ${ext2}`, () => {
   });
 });
 
-describe(`diff in flat ${ext3}`, () => {
+describe(`diff in composite ${ext3}`, () => {
   it(`#${file1}${ext3} -> ${file2}${ext3}`, () => {
     expect(gendiff(`${path7}`, `${path8}`)).toBe(expected1);
   });

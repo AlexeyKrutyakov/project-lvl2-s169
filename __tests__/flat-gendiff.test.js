@@ -1,3 +1,4 @@
+import fs from 'fs';
 import gendiff from '../src';
 
 const fixturesPath = './__tests__/__fixtures__/';
@@ -21,23 +22,10 @@ const path6 = `${fixturesPath}${file0}${ext3}`;
 const path7 = `${fixturesPath}${file1}${ext3}`;
 const path8 = `${fixturesPath}${file2}${ext3}`;
 
+const expected1 = fs.readFileSync(`${fixturesPath}answer-before-after-f`, 'utf-8');
+const expected2 = fs.readFileSync(`${fixturesPath}answer-before-empty-f`, 'utf-8');
+const expected3 = fs.readFileSync(`${fixturesPath}answer-empty-after-f`, 'utf-8');
 
-const expected1 = '{\n' +
-  '    host: hexlet.io\n' +
-  '  - timeout: 50\n' +
-  '  + timeout: 20\n' +
-  '  - proxy: 123.234.53.22\n' +
-  '  + verbose: true\n}';
-
-const expected2 = '{\n' +
-  '  - host: hexlet.io\n' +
-  '  - timeout: 50\n' +
-  '  - proxy: 123.234.53.22\n}';
-
-const expected3 = '{\n' +
-  '  + timeout: 20\n' +
-  '  + verbose: true\n' +
-  '  + host: hexlet.io\n}';
 
 describe(`diff in flat ${ext1}`, () => {
   it(`#${file1}${ext1} -> ${file2}${ext1}`, () => {
