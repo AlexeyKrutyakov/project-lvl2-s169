@@ -2,14 +2,14 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
-import YAML from 'js-yaml';
-import INI from 'ini';
+import yaml from 'js-yaml';
+import ini from 'ini';
 
 const parseBy = {
   '.json': JSON.parse,
-  '.yml': YAML.safeLoad,
-  '.yaml': YAML.safeLoad,
-  '.ini': INI.parse,
+  '.yml': yaml.safeLoad,
+  '.yaml': yaml.safeLoad,
+  '.ini': ini.parse,
 };
 
 const parseData = (rawData, extension) => parseBy[extension](rawData);
