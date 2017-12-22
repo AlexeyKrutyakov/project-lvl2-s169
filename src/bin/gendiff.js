@@ -3,12 +3,12 @@ import program from 'commander';
 import gendiff from '..';
 
 program
-  .version('0.3.2')
+  .version('0.3.7')
   .description('Compares two configuration files and shows a difference.')
-  .option('-f, --format [type]', 'Output format')
+  .option('-f, --format [type]', 'Output format , default = "tree"')
   .arguments('<file1>, <file2>')
-  .action((file1, file2) => {
-    const result = gendiff(file1, file2);
+  .action((file1, file2, option) => {
+    const result = gendiff(file1, file2, option.format);
     console.log(result);
   })
   .parse(process.argv);
