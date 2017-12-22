@@ -49,6 +49,9 @@ const buildAst = (obj1, obj2) => {
   return keys.map((key) => {
     const { type, process } = getPropertyAction(key, obj1, obj2);
     const value = process(obj1[key], obj2[key], buildAst);
+    if (_.isObject(value)) {
+      return { type, key, children: value };
+    }
     return { type, key, value };
   });
 };
