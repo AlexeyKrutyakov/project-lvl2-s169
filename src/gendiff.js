@@ -98,6 +98,8 @@ const astToString = (ast, deepLvl) => {
     switch (type) {
       case 'nested':
         return `${' '.repeat(4 + addSpaces)}${key}: ${astToString(value, deepLvl + 1)}`;
+      case 'unchanged':
+        return `${' '.repeat(4 + addSpaces)}${key}: ${valueToString(value, deepLvl + 1)}`;
       case 'changed':
         return `${' '.repeat(2 + addSpaces)}- ${key}: ${value.old}\n${' '.repeat(2 +
           addSpaces)}+ ${key}: ${value.new}`;
@@ -106,7 +108,7 @@ const astToString = (ast, deepLvl) => {
       case 'added':
         return `${' '.repeat(2 + addSpaces)}+ ${key}: ${valueToString(value, deepLvl + 1)}`;
       default:
-        return `${' '.repeat(4 + addSpaces)}${key}: ${valueToString(value, deepLvl + 1)}`;
+        return 'unknown type';
     }
   };
 
