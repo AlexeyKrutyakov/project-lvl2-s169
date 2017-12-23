@@ -2,7 +2,8 @@
 import fs from 'fs';
 import _ from 'lodash';
 import path from 'path';
-import { parse, render } from './strategies';
+import parse from './parser';
+import render from './renderers';
 
 const createObjFromFile = (filepath) => {
   const rawData = fs.readFileSync(filepath, 'utf-8');
