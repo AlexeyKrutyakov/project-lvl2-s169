@@ -6,10 +6,18 @@
 
 Compares two configuration files and shows a difference.
 
-Usage: gendiff [options] <file1> <file2>
+## Usage
+
+```
+  gendiff [options] <file1> <file2>
+```
+
   Options:
+
     -V, --version        output the version number
+
     -f, --format [type]  Output format , default = "tree"
+
     -h, --help           output usage information
 
 ## Setup
