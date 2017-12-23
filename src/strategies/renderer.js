@@ -39,14 +39,9 @@ const renderToTree = (ast, deepLvl) => {
     }
   };
 
-  const iter = (acc, restNodes) => {
-    if (restNodes.length === 0) {
-      return acc;
-    }
-    const node = restNodes[0];
-    return iter([...acc, `${nodeToString(node, deepLvl)}\n`].join(''), restNodes.slice(1));
-  };
-  return `{\n${iter('', ast)}${' '.repeat(addSpaces)}}`;
+  const result = ast.reduce((acc, node) =>
+    [...acc, `${nodeToString(node, deepLvl)}\n`].join(''), '');
+  return `{\n${result}${' '.repeat(addSpaces)}}`;
 };
 
 const renderToPlain = (ast) => {
