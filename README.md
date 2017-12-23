@@ -9,16 +9,16 @@ Compares two configuration files and shows a difference.
 ## Usage
 
 ```
-  gendiff [options] <file1> <file2>
+  gendiff <file1> <file2> [options]
 ```
 
-  Options:
+Options:
 
-    -V, --version        output the version number
+-V, --version        output the version number
 
-    -f, --format [type]  Output format , default = "tree"
+-f, --format [type]  Output format , default = "tree"
 
-    -h, --help           output usage information
+-h, --help           output usage information
 
 ## Setup
 
